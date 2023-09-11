@@ -1,4 +1,4 @@
-# SimpleWeather
+# SimpleWeather - RXSwift 연습
 
 
 
