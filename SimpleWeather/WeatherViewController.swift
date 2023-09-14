@@ -1,9 +1,3 @@
-//
-//  ViewController.swift
-//  SimpleWeather
-//
-//  Created by ㅣ on 2023/09/11.
-//
 
 import UIKit
 import RxSwift
@@ -12,7 +6,7 @@ import SnapKit
 import SwiftUI
 
 //MARK: - Properties & deinit
-class WeatherViewController: UIViewController {
+final class WeatherViewController: UIViewController {
     
     private let disposeBag = DisposeBag()
     private let viewModel = WeatherViewModel()
@@ -54,22 +48,17 @@ class WeatherViewController: UIViewController {
     private lazy var cityLabel: UILabel = {
         let label = UILabel()
         label.text = viewModel.city[0]
-        
         return label
     }()
     
     private lazy var dateLabel: UILabel = {
         let label = UILabel()
-        
-        
         return label
     }()
     
     
     private lazy var weatherIcon: UIImageView = {
         let imageView = UIImageView()
-        
-        
         return imageView
     }()
     
@@ -90,6 +79,7 @@ extension WeatherViewController {
 
 //MARK: - Bind ViewModel
 private extension WeatherViewController {
+    
     func bindViewModel() {
         let input = WeatherViewModel.Input(fetchWeatherTrigger: Observable.just(()))
         let output = viewModel.transform(input: input)
@@ -97,7 +87,7 @@ private extension WeatherViewController {
             .bind(to: weatherLabel.rx.text)
             .disposed(by: disposeBag)
         output.errorMessage
-            .subscribe(onNext: { [weak self] message in
+            .subscribe(onNext: { message in
                 print(message)
             })
             .disposed(by: disposeBag)
@@ -119,7 +109,6 @@ private extension WeatherViewController {
 //MARK: - Constraints
 private extension WeatherViewController {
     func weatherViewConstraints() {
-    
         //backgroundLayer
         sunnyGradientLayer.frame = view.bounds
         rainyGradientLayer.frame = view.bounds
@@ -133,6 +122,8 @@ private extension WeatherViewController {
         }
     }
 }
+
+
 
 //MARK: - Preview
 struct VCPreView:PreviewProvider {

@@ -1,7 +1,25 @@
 import RxSwift
 
+final class WeatherViewModel {
+    
+    // MARK: - Properties
+    private let apiManager = APIManager()
+    private(set) var city: [String] = ["Seoul", "Paris", "London", "NewYork", "Sydney"]
+    private let kelvinToCelsiusOffset: Double = 273.15
+    
+    // MARK: - Transformation
+    func transform(input: Input) -> Output {
+        let weatherData = fetchWeatherObservable(trigger: input.fetchWeatherTrigger)
+        return Output(
+            temperature: temperatureObservable(from: weatherData),
+            errorMessage: errorMessageObservable(from: weatherData),
+            weatherDescription: weatherDescriptionObservable(from: weatherData)
+        )
+    }
+}
 
-class WeatherViewModel {
+// MARK: - Input & Output
+extension WeatherViewModel {
     
     struct Input {
         let fetchWeatherTrigger: Observable<Void>
@@ -12,38 +30,36 @@ class WeatherViewModel {
         let errorMessage: Observable<String>
         let weatherDescription: Observable<String>
     }
-    
-    private let apiKey = "e050990db22df2ab58ab3c620741e32e"
-    private(set) var city: [String] = ["Seoul", "Paris", "London", "NewYork", "Sydney"]
+}
 
-    func transform(input: Input) -> Output {
-        
-        let weatherData = input.fetchWeatherTrigger
+// MARK: - Helper Functions
+private extension WeatherViewModel {
+    
+    func fetchWeatherObservable(trigger: Observable<Void>) -> Observable<Weather?> {
+        return trigger
             .flatMapLatest {
-                fetchWeather(for: self.city[0], apiKey: self.apiKey)
+                self.apiManager.fetchWeather(for: self.city[0])
                     .catchAndReturn(nil)
             }
             .share(replay: 1, scope: .whileConnected)
-        
-        let temperature = weatherData
-            .compactMap { weather -> String? in
-                if let temp = weather?.main.temp {
-                    let temperatureInCelsius = temp - 273.15
-                    return "\(Int(temperatureInCelsius))°C"
-                }
-                return nil
-            }
-        
-        let errorMessage = weatherData
-            .compactMap { weather -> String? in
-                return weather == nil ? "Failed to fetch weather" : nil
-            }
-        
-        let weatherDescription = weatherData
-            .compactMap { weather -> String? in
-                return weather?.weather.first?.description
-            }
-        
-        return Output(temperature: temperature, errorMessage: errorMessage, weatherDescription: weatherDescription)
+    }
+    
+    func temperatureObservable(from data: Observable<Weather?>) -> Observable<String> {
+        return data.compactMap { weather in
+            guard let temp = weather?.main.temp else { return nil }
+            return "\((temp - self.kelvinToCelsiusOffset).rounded())°C"
+        }
+    }
+    
+    func errorMessageObservable(from data: Observable<Weather?>) -> Observable<String> {
+        return data.compactMap { weather in
+            weather == nil ? "Failed to fetch weather" : nil
+        }
+    }
+    
+    func weatherDescriptionObservable(from data: Observable<Weather?>) -> Observable<String> {
+        return data.compactMap { weather in
+            weather?.weather.first?.description
+        }
     }
 }

@@ -1,13 +1,4 @@
-//
-//  File.swift
-//  SimpleWeather
-//
-//  Created by ㅣ on 2023/09/11.
-//
-
 import RxSwift
-
-
 
 struct Weather: Codable {
     let main: Main
@@ -24,36 +15,52 @@ struct WeatherCondition: Codable {
     let description: String
 }
 
-
-func fetchWeather(for city: String, apiKey: String) -> Observable<Weather?> {
-    return Observable.create { observer in
-        
-        let urlString = "https://api.openweathermap.org/data/2.5/weather?q=Seoul&appid=e050990db22df2ab58ab3c620741e32e"
-        
-        guard let url = URL(string: urlString) else {
-            observer.onError(NSError(domain: "InvalidURL", code: 400, userInfo:  nil))
-            return Disposables.create()
-        }
-        
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            
-            if let error = error {
-                observer.onError(error)
-                return
+final class APIManager {
+    private let baseURL = "https://api.openweathermap.org/data/2.5/weather"
+    private let apiKey = "e050990db22df2ab58ab3c620741e32e"
+    
+    func fetchWeather(for city: String) -> Observable<Weather?> {
+        let urlString = "\(baseURL)?q=\(city)&appid=\(apiKey)"
+        return performRequest(urlString: urlString)
+    }
+    
+    private func performRequest(urlString: String) -> Observable<Weather?> {
+        return Observable.create { observer in
+            guard let url = URL(string: urlString) else {
+                observer.onError(APIError.invalidURL)
+                return Disposables.create()
             }
             
-            guard let data = data, let weather = try? JSONDecoder().decode(Weather.self, from: data) else {
-                observer.onError(NSError(domain: "DecodingError", code: 401, userInfo: nil))
-                return
+            let task = URLSession.shared.dataTask(with: url) { data, response, error in
+                if let error = error {
+                    observer.onError(error)
+                    return
+                }
+                
+                guard let data = data else {
+                    observer.onError(APIError.noData)
+                    return
+                }
+                
+                do {
+                    let weather = try JSONDecoder().decode(Weather.self, from: data)
+                    observer.onNext(weather)
+                    observer.onCompleted()
+                } catch {
+                    observer.onError(APIError.decodingError)
+                }
             }
-            observer.onNext(weather)
-            observer.onCompleted()
-        }
-        task.resume()
-        
-        return Disposables.create {
-            task.cancel()
+            task.resume()
+            
+            return Disposables.create {
+                task.cancel()
+            }
         }
     }
 }
 
+enum APIError: Error {
+    case invalidURL
+    case noData
+    case decodingError
+}
