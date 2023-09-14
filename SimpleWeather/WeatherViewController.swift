@@ -10,6 +10,8 @@ final class WeatherViewController: UIViewController {
     
     private let disposeBag = DisposeBag()
     private let viewModel = WeatherViewModel()
+
+
     
     private lazy var sunnyGradientLayer: CAGradientLayer = {
         let gradientLayer = CAGradientLayer()
@@ -58,8 +60,7 @@ final class WeatherViewController: UIViewController {
     
     
     private lazy var weatherIcon: UIImageView = {
-        let imageView = UIImageView()
-        return imageView
+        return UIImageView()
     }()
     
     deinit {
@@ -85,6 +86,9 @@ private extension WeatherViewController {
         let output = viewModel.transform(input: input)
         output.temperature
             .bind(to: weatherLabel.rx.text)
+            .disposed(by: disposeBag)
+        output.weatherIcon
+            .bind(to: weatherIcon.rx.image)
             .disposed(by: disposeBag)
         output.errorMessage
             .subscribe(onNext: { message in
@@ -119,6 +123,21 @@ private extension WeatherViewController {
             make.top.equalToSuperview().inset(230)
             make.left.right.equalToSuperview().inset(30)
             make.height.equalTo(40)
+        }
+        
+        //cityLabel
+        cityLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(100)
+            make.left.right.equalToSuperview().inset(30)
+            make.height.equalTo(40)
+        }
+        
+        //weatherIcon
+        weatherIcon.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(10)
+            make.left.equalToSuperview().inset(30)
+            make.height.width.equalTo(100)
+
         }
     }
 }

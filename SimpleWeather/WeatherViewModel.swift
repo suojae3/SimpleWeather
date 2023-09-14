@@ -7,13 +7,21 @@ final class WeatherViewModel {
     private(set) var city: [String] = ["Seoul", "Paris", "London", "NewYork", "Sydney"]
     private let kelvinToCelsiusOffset: Double = 273.15
     
+    
+    
     // MARK: - Transformation
     func transform(input: Input) -> Output {
         let weatherData = fetchWeatherObservable(trigger: input.fetchWeatherTrigger)
+        let weatherIcon = weatherData
+            .map { weather -> UIImage? in
+                return weather?.weather.first?.icon?.image
+            }
+
         return Output(
             temperature: temperatureObservable(from: weatherData),
             errorMessage: errorMessageObservable(from: weatherData),
-            weatherDescription: weatherDescriptionObservable(from: weatherData)
+            weatherDescription: weatherDescriptionObservable(from: weatherData),
+            weatherIcon: weatherIcon
         )
     }
 }
@@ -29,7 +37,11 @@ extension WeatherViewModel {
         let temperature: Observable<String>
         let errorMessage: Observable<String>
         let weatherDescription: Observable<String>
+        let weatherIcon: Observable<UIImage?>
+
     }
+    
+    
 }
 
 // MARK: - Helper Functions
@@ -62,4 +74,7 @@ private extension WeatherViewModel {
             weather?.weather.first?.description
         }
     }
+    
+    
 }
+

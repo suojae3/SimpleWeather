@@ -13,7 +13,35 @@ struct Main: Codable {
 struct WeatherCondition: Codable {
     let main: String
     let description: String
+    
+    var icon: WeatherIcon? {
+        switch description {
+        case "clear sky":
+            return .sunny
+        case "few clouds", "scattered clouds":
+            return .partlyCloudy
+        case "broken clouds", "overcast clouds":
+            return .cloudy
+        case "rain", "light rain", "heavy rain":
+            return .rainy
+        default:
+            return nil
+        }
+    }
 }
+
+enum WeatherIcon: String {
+    case cloudy
+    case partlyCloudy = "partlyCloudy"
+    case sunny
+    case rainy
+    
+    var image: UIImage? {
+        return UIImage(named: self.rawValue)
+    }
+}
+
+
 
 final class APIManager {
     private let baseURL = "https://api.openweathermap.org/data/2.5/weather"
@@ -64,3 +92,4 @@ enum APIError: Error {
     case noData
     case decodingError
 }
+
