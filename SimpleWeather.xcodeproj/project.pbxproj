@@ -8,18 +8,24 @@
 
 /* Begin PBXBuildFile section */
 		00BEA59FE38EBF2B1D853844 /* Pods_SimpleWeather.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73FF6091710B3BC37FB9890E /* Pods_SimpleWeather.framework */; };
+		0843D66D2AB2BCFE00D62B14 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0843D66C2AB2BCFE00D62B14 /* Data.swift */; };
+		0843D66F2AB2BD1400D62B14 /* PreviewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0843D66E2AB2BD1400D62B14 /* PreviewExtension.swift */; };
+		0843D6712AB2BD3800D62B14 /* HexColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0843D6702AB2BD3800D62B14 /* HexColorExtension.swift */; };
 		08451A142AAF1F3A00C406EA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08451A132AAF1F3A00C406EA /* AppDelegate.swift */; };
 		08451A162AAF1F3A00C406EA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08451A152AAF1F3A00C406EA /* SceneDelegate.swift */; };
-		08451A182AAF1F3A00C406EA /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08451A172AAF1F3A00C406EA /* MainViewController.swift */; };
+		08451A182AAF1F3A00C406EA /* WeatherViweController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08451A172AAF1F3A00C406EA /* WeatherViweController.swift */; };
 		08451A1D2AAF1F3D00C406EA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 08451A1C2AAF1F3D00C406EA /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		03A85360B52C0D2AC4B50D20 /* Pods-SimpleWeather.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SimpleWeather.debug.xcconfig"; path = "Target Support Files/Pods-SimpleWeather/Pods-SimpleWeather.debug.xcconfig"; sourceTree = "<group>"; };
+		0843D66C2AB2BCFE00D62B14 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
+		0843D66E2AB2BD1400D62B14 /* PreviewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewExtension.swift; sourceTree = "<group>"; };
+		0843D6702AB2BD3800D62B14 /* HexColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexColorExtension.swift; sourceTree = "<group>"; };
 		08451A102AAF1F3A00C406EA /* SimpleWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimpleWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		08451A132AAF1F3A00C406EA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		08451A152AAF1F3A00C406EA /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		08451A172AAF1F3A00C406EA /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		08451A172AAF1F3A00C406EA /* WeatherViweController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViweController.swift; sourceTree = "<group>"; };
 		08451A1C2AAF1F3D00C406EA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		08451A212AAF1F3D00C406EA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		73FF6091710B3BC37FB9890E /* Pods_SimpleWeather.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SimpleWeather.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -61,9 +67,12 @@
 			children = (
 				08451A132AAF1F3A00C406EA /* AppDelegate.swift */,
 				08451A152AAF1F3A00C406EA /* SceneDelegate.swift */,
-				08451A172AAF1F3A00C406EA /* MainViewController.swift */,
+				08451A172AAF1F3A00C406EA /* WeatherViweController.swift */,
 				08451A1C2AAF1F3D00C406EA /* Assets.xcassets */,
 				08451A212AAF1F3D00C406EA /* Info.plist */,
+				0843D66C2AB2BCFE00D62B14 /* Data.swift */,
+				0843D66E2AB2BD1400D62B14 /* PreviewExtension.swift */,
+				0843D6702AB2BD3800D62B14 /* HexColorExtension.swift */,
 			);
 			path = SimpleWeather;
 			sourceTree = "<group>";
@@ -198,9 +207,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				08451A182AAF1F3A00C406EA /* MainViewController.swift in Sources */,
+				08451A182AAF1F3A00C406EA /* WeatherViweController.swift in Sources */,
+				0843D6712AB2BD3800D62B14 /* HexColorExtension.swift in Sources */,
 				08451A142AAF1F3A00C406EA /* AppDelegate.swift in Sources */,
+				0843D66F2AB2BD1400D62B14 /* PreviewExtension.swift in Sources */,
 				08451A162AAF1F3A00C406EA /* SceneDelegate.swift in Sources */,
+				0843D66D2AB2BCFE00D62B14 /* Data.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
