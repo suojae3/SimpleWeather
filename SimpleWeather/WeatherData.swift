@@ -4,7 +4,10 @@
 //
 //  Created by ㅣ on 2023/09/11.
 //
+
 import RxSwift
+
+
 
 struct Weather: Codable {
     let main: Main
@@ -43,7 +46,6 @@ func fetchWeather(for city: String, apiKey: String) -> Observable<Weather?> {
                 observer.onError(NSError(domain: "DecodingError", code: 401, userInfo: nil))
                 return
             }
-            
             observer.onNext(weather)
             observer.onCompleted()
         }

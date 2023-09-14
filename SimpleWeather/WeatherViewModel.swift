@@ -14,12 +14,13 @@ class WeatherViewModel {
     }
     
     private let apiKey = "e050990db22df2ab58ab3c620741e32e"
-    
+    private(set) var city: [String] = ["Seoul", "Paris", "London", "NewYork", "Sydney"]
+
     func transform(input: Input) -> Output {
         
         let weatherData = input.fetchWeatherTrigger
             .flatMapLatest {
-                fetchWeather(for: "Seoul", apiKey: self.apiKey)
+                fetchWeather(for: self.city[0], apiKey: self.apiKey)
                     .catchAndReturn(nil)
             }
             .share(replay: 1, scope: .whileConnected)
