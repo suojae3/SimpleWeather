@@ -4,11 +4,7 @@
 //
 //  Created by ㅣ on 2023/09/11.
 //
-
-import Foundation
 import RxSwift
-import SwiftUI
-
 
 struct Weather: Codable {
     let main: Main
@@ -26,7 +22,7 @@ struct WeatherCondition: Codable {
 }
 
 
-func fetchWeather(for city: String, apiKey: String) -> Observable<Weather> {
+func fetchWeather(for city: String, apiKey: String) -> Observable<Weather?> {
     return Observable.create { observer in
         
         let urlString = "https://api.openweathermap.org/data/2.5/weather?q=Seoul&appid=e050990db22df2ab58ab3c620741e32e"
